@@ -75,6 +75,8 @@ public class Lexer {
         if(Character.isLetter(currentChar)) {
           String literal = readIdentifier();
           return new Token(Token.lookupIdentifier(literal), literal);
+        } else if(Character.isDigit(currentChar)) {
+          return new Token(TokenType.INT, readNumber());
         } else {
           token = createToken(TokenType.ILLEGAL, currentChar);
         }
@@ -93,6 +95,15 @@ public class Lexer {
   private String readIdentifier() {
     Integer position = this.position;
     while(Character.isLetter(currentChar)) {
+      readChar();
+    }
+
+    return input.substring(position, this.position);
+  }
+
+  private String readNumber() {
+    Integer position = this.position;
+    while(Character.isDigit(currentChar)) {
       readChar();
     }
 
