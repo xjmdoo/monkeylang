@@ -26,6 +26,7 @@ public class LexerTest {
     currentToken = l.nextToken();
 
     Assert.assertEquals("Token should be INT type", TokenType.INT, currentToken.getTokenType());
+    Assert.assertEquals("Token literal should be '5'", "5", currentToken.getLiteral());
 
     currentToken = l.nextToken();
 
