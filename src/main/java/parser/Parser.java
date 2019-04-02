@@ -1,5 +1,6 @@
 package parser;
 
+import ast.Identifier;
 import ast.LetStatement;
 import ast.Program;
 import ast.Statement;
@@ -53,9 +54,41 @@ public class Parser {
     }
 
     private Statement parseLetStatement() {
-        Statement stmt = new LetStatement();
+        LetStatement stmt = new LetStatement();
         stmt.setToken(currentToken);
+        if(!expectPeek(TokenType.IDENTIFIER)) {
+            return null;
+        }
+
+
+        stmt.setName(new Identifier(currentToken, currentToken.getLiteral()));
+
+        if(!expectPeek(TokenType.ASSIGN)) {
+            return null;
+        }
+
+        while(!currentTokenIs(TokenType.SEMICOLON)) {
+            nextToken();
+        }
 
         return stmt;
+    }
+
+    private boolean currentTokenIs(TokenType t) {
+        return currentToken.getTokenType().equals(t);
+    }
+
+    private boolean peekTokenIs(TokenType t) {
+        return peekToken.getTokenType().equals(t);
+    }
+
+    private boolean expectPeek(TokenType t) {
+        if(peekTokenIs(t)) {
+            nextToken();
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }
