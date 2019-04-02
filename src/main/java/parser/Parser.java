@@ -30,7 +30,7 @@ public class Parser {
     public Program parse() {
         Program program = new Program();
 
-        while(!currentToken.getTokenType().equals(TokenType.EOF)) {
+        while(!currentTokenIs(TokenType.EOF)) {
             Statement stmt = parseStatement();
 
             if(stmt != null) {
