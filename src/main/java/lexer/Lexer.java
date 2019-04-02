@@ -39,6 +39,34 @@ public class Lexer {
         token = createToken(TokenType.ASSIGN, currentChar);
         break;
 
+      case '+':
+        token = createToken(TokenType.PLUS, currentChar);
+        break;
+
+      case '-':
+        token = createToken(TokenType.MINUS, currentChar);
+        break;
+
+      case '!':
+        token = createToken(TokenType.BANG, currentChar);
+        break;
+
+      case '*':
+        token = createToken(TokenType.ASTERISK, currentChar);
+        break;
+
+      case '/':
+        token = createToken(TokenType.SLASH, currentChar);
+        break;
+
+      case '<':
+        token = createToken(TokenType.LT, currentChar);
+        break;
+
+      case '>':
+        token = createToken(TokenType.GT, currentChar);
+        break;
+
       case ';':
         token = createToken(TokenType.SEMICOLON, currentChar);
         break;
@@ -53,10 +81,6 @@ public class Lexer {
 
       case ',':
         token = createToken(TokenType.COMMA, currentChar);
-        break;
-
-      case '+':
-        token = createToken(TokenType.PLUS, currentChar);
         break;
 
       case '{':
@@ -94,7 +118,7 @@ public class Lexer {
 
   private String readIdentifier() {
     Integer position = this.position;
-    while(Character.isLetter(currentChar)) {
+    while(Character.isLetter(currentChar) || Character.isDigit(currentChar)) {
       readChar();
     }
 

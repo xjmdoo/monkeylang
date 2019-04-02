@@ -5,32 +5,84 @@ import org.junit.Test;
 import token.Token;
 import token.TokenType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LexerTest {
 
   @Test
   public void testLexer() {
-    Lexer l = new Lexer("let a = 5;", 0, 0);
+    String input = "let a = 5;" +
+            "let func1 = fn(a, b) {" +
+            "return a + b;" +
+            "}" +
+            "*/-!5<>;" +
+            "if(1 < 2) {" +
+            "return true;" +
+            "} else {" +
+            "return false;" +
+            "}";
 
-    Token currentToken = l.nextToken();
-    Assert.assertEquals("Token should be LET type", TokenType.LET, currentToken.getTokenType());
+    Lexer l = new Lexer(input, 0, 0);
 
-    currentToken = l.nextToken();
+    List<Token> testTokens = new ArrayList<>();
+    testTokens.add(new Token(TokenType.LET, "let"));
+    testTokens.add(new Token(TokenType.IDENTIFIER, "a"));
+    testTokens.add(new Token(TokenType.ASSIGN, "="));
+    testTokens.add(new Token(TokenType.INT, "5"));
+    testTokens.add(new Token(TokenType.SEMICOLON, ";"));
+    testTokens.add(new Token(TokenType.LET, "let"));
+    testTokens.add(new Token(TokenType.IDENTIFIER, "func1"));
+    testTokens.add(new Token(TokenType.ASSIGN, "="));
+    testTokens.add(new Token(TokenType.FUNCTION, "fn"));
+    testTokens.add(new Token(TokenType.LPAREN, "("));
+    testTokens.add(new Token(TokenType.IDENTIFIER, "a"));
+    testTokens.add(new Token(TokenType.COMMA, ","));
+    testTokens.add(new Token(TokenType.IDENTIFIER, "b"));
+    testTokens.add(new Token(TokenType.RPAREN, ")"));
+    testTokens.add(new Token(TokenType.LBRACE, "{"));
+    testTokens.add(new Token(TokenType.RETURN, "return"));
+    testTokens.add(new Token(TokenType.IDENTIFIER, "a"));
+    testTokens.add(new Token(TokenType.PLUS, "+"));
+    testTokens.add(new Token(TokenType.IDENTIFIER, "b"));
+    testTokens.add(new Token(TokenType.SEMICOLON, ";"));
+    testTokens.add(new Token(TokenType.RBRACE, "}"));
+    testTokens.add(new Token(TokenType.ASTERISK, "*"));
+    testTokens.add(new Token(TokenType.SLASH, "/"));
+    testTokens.add(new Token(TokenType.MINUS, "-"));
+    testTokens.add(new Token(TokenType.BANG, "!"));
+    testTokens.add(new Token(TokenType.INT, "5"));
+    testTokens.add(new Token(TokenType.LT, "<"));
+    testTokens.add(new Token(TokenType.GT, ">"));
+    testTokens.add(new Token(TokenType.SEMICOLON, ";"));
+    testTokens.add(new Token(TokenType.IF, "if"));
+    testTokens.add(new Token(TokenType.LPAREN, "("));
+    testTokens.add(new Token(TokenType.INT, "1"));
+    testTokens.add(new Token(TokenType.LT, "<"));
+    testTokens.add(new Token(TokenType.INT, "2"));
+    testTokens.add(new Token(TokenType.RPAREN, ")"));
+    testTokens.add(new Token(TokenType.LBRACE, "{"));
+    testTokens.add(new Token(TokenType.RETURN, "return"));
+    testTokens.add(new Token(TokenType.TRUE, "true"));
+    testTokens.add(new Token(TokenType.SEMICOLON, ";"));
+    testTokens.add(new Token(TokenType.RBRACE, "}"));
+    testTokens.add(new Token(TokenType.ELSE, "else"));
+    testTokens.add(new Token(TokenType.LBRACE, "{"));
+    testTokens.add(new Token(TokenType.RETURN, "return"));
+    testTokens.add(new Token(TokenType.FALSE, "false"));
+    testTokens.add(new Token(TokenType.SEMICOLON, ";"));
+    testTokens.add(new Token(TokenType.RBRACE, "}"));
 
-    Assert.assertEquals("Token should be IDENTIFIER type", TokenType.IDENTIFIER, currentToken.getTokenType());
-    Assert.assertEquals("Token literal should be 'a'", "a", currentToken.getLiteral());
+    testTokens.add(new Token(TokenType.EOF, ""));
 
-    currentToken = l.nextToken();
 
-    Assert.assertEquals("Token should be ASSIGN type", TokenType.ASSIGN, currentToken.getTokenType());
+    for(int i = 0; i < testTokens.size(); i++) {
+      Token currentToken = l.nextToken();
+      Assert.assertEquals("Testing #" + i + " TokenType", testTokens.get(i).getTokenType(),
+              currentToken.getTokenType());
 
-    currentToken = l.nextToken();
-
-    Assert.assertEquals("Token should be INT type", TokenType.INT, currentToken.getTokenType());
-    Assert.assertEquals("Token literal should be '5'", "5", currentToken.getLiteral());
-
-    currentToken = l.nextToken();
-
-    Assert.assertEquals("Token should be SEMICOLON type", TokenType.SEMICOLON, currentToken.getTokenType());
-
+      Assert.assertEquals("Testing #" + i + " Literal", testTokens.get(i).getLiteral(),
+              currentToken.getLiteral());
+    }
   }
 }

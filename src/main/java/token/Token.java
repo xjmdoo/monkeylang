@@ -36,6 +36,11 @@ public class Token {
       KEYWORDS = new HashMap<>();
       KEYWORDS.put("fn", TokenType.FUNCTION);
       KEYWORDS.put("let", TokenType.LET);
+      KEYWORDS.put("return", TokenType.RETURN);
+      KEYWORDS.put("true", TokenType.TRUE);
+      KEYWORDS.put("false", TokenType.FALSE);
+      KEYWORDS.put("if", TokenType.IF);
+      KEYWORDS.put("else", TokenType.ELSE);
     }
 
     return KEYWORDS;
