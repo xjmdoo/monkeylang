@@ -7,6 +7,9 @@ public enum TokenType {
   IDENTIFIER,
   INT,
 
+  EQ,
+  NOT_EQ,
+
   ASSIGN,
   PLUS,
   MINUS,

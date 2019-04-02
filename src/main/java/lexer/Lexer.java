@@ -18,6 +18,14 @@ public class Lexer {
     readChar();
   }
 
+  private char peekChar() {
+    if(readPosition >= input.length()) {
+      return 0;
+    } else {
+      return input.charAt(readPosition);
+    }
+  }
+
   private void readChar() {
     if(readPosition >= input.length()) {
       currentChar = 0;
@@ -36,7 +44,13 @@ public class Lexer {
 
     switch(currentChar) {
       case '=':
-        token = createToken(TokenType.ASSIGN, currentChar);
+        if(peekChar() == '=') {
+          char ch = currentChar;
+          readChar();
+          token = new Token(TokenType.EQ, ch + String.valueOf(currentChar));
+        } else {
+          token = createToken(TokenType.ASSIGN, currentChar);
+        }
         break;
 
       case '+':
@@ -48,7 +62,13 @@ public class Lexer {
         break;
 
       case '!':
-        token = createToken(TokenType.BANG, currentChar);
+        if(peekChar() == '=') {
+          char ch = currentChar;
+          readChar();
+          token = new Token(TokenType.NOT_EQ, ch + String.valueOf(currentChar));
+        } else {
+          token = createToken(TokenType.BANG, currentChar);
+        }
         break;
 
       case '*':

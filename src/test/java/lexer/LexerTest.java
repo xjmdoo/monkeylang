@@ -21,7 +21,9 @@ public class LexerTest {
             "return true;" +
             "} else {" +
             "return false;" +
-            "}";
+            "}" +
+            "10 == 10;" +
+            "10 != 10;";
 
     Lexer l = new Lexer(input, 0, 0);
 
@@ -72,6 +74,14 @@ public class LexerTest {
     testTokens.add(new Token(TokenType.FALSE, "false"));
     testTokens.add(new Token(TokenType.SEMICOLON, ";"));
     testTokens.add(new Token(TokenType.RBRACE, "}"));
+    testTokens.add(new Token(TokenType.INT, "10"));
+    testTokens.add(new Token(TokenType.EQ, "=="));
+    testTokens.add(new Token(TokenType.INT, "10"));
+    testTokens.add(new Token(TokenType.SEMICOLON, ";"));
+    testTokens.add(new Token(TokenType.INT, "10"));
+    testTokens.add(new Token(TokenType.NOT_EQ, "!="));
+    testTokens.add(new Token(TokenType.INT, "10"));
+    testTokens.add(new Token(TokenType.SEMICOLON, ";"));
 
     testTokens.add(new Token(TokenType.EOF, ""));
 
